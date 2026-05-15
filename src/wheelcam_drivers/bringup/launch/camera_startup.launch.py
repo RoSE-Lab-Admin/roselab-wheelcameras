@@ -43,12 +43,13 @@ def generate_launch_description():
     )
 
     v4l2_cam_1 = Node(
-        package="v4l2_camera",
-        executable="v4l2_camera_node",
+        package="usb_cam",
+        executable="usb_cam_node",
         parameters=[{
             "video_device": "/dev/video0",
-            "pixel_format": "YUYV",
-            "image_size": [640, 480],
+            "pixel_format": "MJPEG",
+            "image_width": 800,
+            "image_height": 600,
         }],
         output="both",
     )
