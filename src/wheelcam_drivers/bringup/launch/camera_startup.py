@@ -46,7 +46,7 @@ def generate_launch_description():
     package="v4l2_camera",
     executable="v4l2_camera_node",
     parameters=[{
-        "video_device": "/dev/video4",
+        "video_device": "/dev/video0",
         "pixel_format": "MJPG",
         "image_size": [800, 600],
     }],

@@ -2,7 +2,7 @@
 set -e
 
 # Set the video device - change if camera is on a different node
-DEVICE=${1:-/dev/video4}
+DEVICE=${1:-/dev/video0}
 
 echo "Configuring Arducam OV9782 on $DEVICE for external trigger mode"
 
