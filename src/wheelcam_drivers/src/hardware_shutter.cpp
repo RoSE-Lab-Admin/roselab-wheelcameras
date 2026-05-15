@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include <gpiod.hpp>
+#include <gpiod.h>
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/header.hpp"
@@ -36,9 +36,19 @@ public:
     pulse_duration_us_        = this->get_parameter("pulse_duration_us").as_int();
 
     // GPIO setup
-    chip_ = gpiod::chip(gpio_chip_dev);
-    line_ = chip_.get_line(gpio_pin_);
-    line_.request({"hardware_shutter", gpiod::line_request::DIRECTION_OUTPUT, 0});
+    chip_ = gpiod_chip_open(gpio_chip_dev.c_str());
+    if (!chip_) {
+      throw std::runtime_error("Failed to open GPIO chip: " + gpio_chip_dev);
+    }
+    line_ = gpiod_chip_get_line(chip_, gpio_pin_);
+    if (!line_) {
+      gpiod_chip_close(chip_);
+      throw std::runtime_error("Failed to get GPIO line");
+    }
+    if (gpiod_line_request_output(line_, "hardware_shutter", 0) < 0) {
+      gpiod_chip_close(chip_);
+      throw std::runtime_error("Failed to request GPIO line as output");
+    }
 
     // Publisher
     publisher_ = this->create_publisher<std_msgs::msg::Header>(output_topic, 10);
@@ -56,8 +66,13 @@ public:
 
   ~HardwareShutter()
   {
-    line_.set_value(0);
-    line_.release();
+    if (line_) {
+      gpiod_line_set_value(line_, 0);
+      gpiod_line_release(line_);
+    }
+    if (chip_) {
+      gpiod_chip_close(chip_);
+    }
   }
 
 private:
@@ -69,9 +84,9 @@ private:
     msg.frame_id = "camera";
 
     // Pulse the GPIO pin
-    line_.set_value(1);
+    gpiod_line_set_value(line_, 1);
     rclcpp::sleep_for(std::chrono::microseconds(pulse_duration_us_));
-    line_.set_value(0);
+    gpiod_line_set_value(line_, 0);
 
     // Publish header
     publisher_->publish(msg);
@@ -79,8 +94,8 @@ private:
 
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::Header>::SharedPtr publisher_;
-  gpiod::chip chip_;
-  gpiod::line line_;
+  gpiod_chip * chip_;
+  gpiod_line * line_;
   unsigned int gpio_pin_;
   int pulse_duration_us_;
 };
