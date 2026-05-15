@@ -25,13 +25,16 @@ target_link_libraries(hardware_shutter ${GPIODCXX_LIBRARIES})
 
 ament_target_dependencies(hardware_shutter rclcpp std_msgs)
 
-install(TARGETS hardware_shutter
+install(TARGETS 
+  hardware_shutter
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY bringup
+install(DIRECTORY
+  bringup
   DESTINATION share/${PROJECT_NAME}/
 )
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
