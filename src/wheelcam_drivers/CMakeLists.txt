@@ -29,12 +29,8 @@ install(TARGETS hardware_shutter
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY bringup/
-  DESTINATION share/${PROJECT_NAME}/bringup
-)
-
-install(FILES bringup/launch/camera_startup.py
-  DESTINATION share/${PROJECT_NAME}/launch
+install(DIRECTORY bringup
+  DESTINATION share/${PROJECT_NAME}/
 )
 
 if(BUILD_TESTING)
