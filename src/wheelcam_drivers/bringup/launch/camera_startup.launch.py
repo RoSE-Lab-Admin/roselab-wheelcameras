@@ -44,10 +44,10 @@ def generate_launch_description():
 
     v4l2_cam_1 = Node(
         package="usb_cam",
-        executable="usb_cam_node",
+        executable="usb_cam_node_exe",
         parameters=[{
             "video_device": "/dev/video0",
-            "pixel_format": "MJPEG",
+            "pixel_format": "mjpeg",
             "image_width": 800,
             "image_height": 600,
         }],
