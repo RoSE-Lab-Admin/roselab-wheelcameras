@@ -1,6 +1,6 @@
 hardware_shutter:
   ros__parameters:
-    framerate: 30
+    framerate: 30.0
     output_topic: "/wheelcam/imageheader"
     gpio_chip: /dev/gpiochip4
     gpio_pin: 3

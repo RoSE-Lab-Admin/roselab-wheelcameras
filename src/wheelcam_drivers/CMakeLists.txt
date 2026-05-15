@@ -35,6 +35,10 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
+install(PROGRAMS bringup/launch/camera_setup.sh
+  DESTINATION share/${PROJECT_NAME}/bringup/launch
+)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
