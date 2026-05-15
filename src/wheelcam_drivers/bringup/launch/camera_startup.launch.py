@@ -50,6 +50,7 @@ def generate_launch_description():
             "pixel_format": "mjpeg2rgb",
             "image_width": 800,
             "image_height": 600,
+            "framerate": 60.0,
             "autoexposure": False,
             "exposure": 500,
         }],
