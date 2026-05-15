@@ -25,7 +25,7 @@ public:
     // Parameters
     this->declare_parameter<double>("framerate", 30.0);
     this->declare_parameter<std::string>("output_topic", "image_header");
-    this->declare_parameter<std::string>("gpio_chip", "/dev/gpiochip0");
+    this->declare_parameter<std::string>("gpio_chip", "/dev/gpiochip4");
     this->declare_parameter<int>("gpio_pin", 3);
     this->declare_parameter<int>("pulse_duration_us", 1000);
 
