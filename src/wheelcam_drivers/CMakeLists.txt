@@ -33,7 +33,7 @@ install(DIRECTORY bringup/
   DESTINATION share/${PROJECT_NAME}/bringup
 )
 
-install(DIRECTORY bringup/launch/
+install(FILES bringup/launch/camera_startup.py
   DESTINATION share/${PROJECT_NAME}/launch
 )
 
