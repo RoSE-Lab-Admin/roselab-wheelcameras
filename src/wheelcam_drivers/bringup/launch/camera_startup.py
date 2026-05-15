@@ -42,12 +42,24 @@ def generate_launch_description():
         output="both",
     )
 
+    v4l2_cam_1 = Node(
+    package="v4l2_camera",
+    executable="v4l2_camera_node",
+    parameters=[{
+        "video_device": "/dev/video4",
+        "pixel_format": "MJPG",
+        "image_size": [800, 600],
+    }],
+    output="both",
+)
+
     return LaunchDescription([
         camera_startup,
         RegisterEventHandler(
             OnProcessExit(
                 target_action=camera_startup,
-                on_exit=[shutter],
+                on_exit=[shutter,
+                         v4l2_cam_1,],
             )
         ),
     ])
