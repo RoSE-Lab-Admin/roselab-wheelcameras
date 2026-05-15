@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler, ExecuteProcess
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler, ExecuteProcess, TimerAction
 from launch.event_handlers import OnProcessExit
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
 
@@ -50,6 +50,8 @@ def generate_launch_description():
             "pixel_format": "mjpeg2rgb",
             "image_width": 800,
             "image_height": 600,
+            "autoexposure": False,
+            "exposure": 500,
         }],
         output="both",
     )
@@ -59,8 +61,20 @@ def generate_launch_description():
         RegisterEventHandler(
             OnProcessExit(
                 target_action=camera_startup,
-                on_exit=[shutter,
-                         v4l2_cam_1,],
+                on_exit=[
+                    shutter,
+                    v4l2_cam_1,
+                    # Re-apply exposure_dynamic_framerate after usb_cam init
+                    # (not exposed as a usb_cam parameter)
+                    TimerAction(
+                        period=2.0,
+                        actions=[ExecuteProcess(
+                            cmd=['v4l2-ctl', '-d', '/dev/video0',
+                                 '-c', 'exposure_dynamic_framerate=1'],
+                            output='screen'
+                        )]
+                    ),
+                ],
             )
         ),
     ])
