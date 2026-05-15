@@ -11,7 +11,7 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
-  <depend>libgpiod</depend>
+  <depend>libgpiod-dev</depend>
   <depend>v4l-util</depend>
 
   <test_depend>ament_lint_auto</test_depend>

@@ -11,7 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GPIODCXX REQUIRED libgpiod)
+pkg_check_modules(GPIODCXX REQUIRED libgpiod-dev)
 
 add_executable(hardware_shutter src/hardware_shutter.cpp)
 
