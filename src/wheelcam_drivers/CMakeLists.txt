@@ -7,9 +7,31 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GPIODCXX REQUIRED libgpiodcxx)
+
+add_executable(hardware_shutter src/hardware_shutter.cpp)
+
+target_include_directories(hardware_shutter PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${GPIODCXX_INCLUDE_DIRS}
+)
+
+target_link_libraries(hardware_shutter ${GPIODCXX_LIBRARIES})
+
+ament_target_dependencies(hardware_shutter rclcpp std_msgs)
+
+install(TARGETS hardware_shutter
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY bringup/
+  DESTINATION share/${PROJECT_NAME}/bringup
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
