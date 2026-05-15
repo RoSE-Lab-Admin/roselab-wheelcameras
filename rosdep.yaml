@@ -1,0 +1,7 @@
+libgpiod:
+  ubuntu:
+    focal: [libgpiod-dev]
+    jammy: [libgpiod-dev, libgpiodcxx-dev]
+    noble: [libgpiod-dev, libgpiodcxx-dev]
+v4l-util:
+  ubuntu: [v4l-utils]
