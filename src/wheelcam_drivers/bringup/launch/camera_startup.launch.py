@@ -83,7 +83,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
-        parameters=[camera_params, {"video_device": "/dev/video4"}],
+        parameters=[camera_params, {"video_device": "/dev/video8"}],
         output="both",
     )
 
