@@ -18,6 +18,15 @@ def generate_launch_description():
         ]
     )
 
+    camera_params = PathJoinSubstitution(
+        [
+            FindPackageShare("wheelcam_drivers"),
+            "bringup",
+            "config",
+            "camera_params.yaml",
+        ]
+    )
+
     #get path to camera setup script
     camera_script = PathJoinSubstitution(
         [
@@ -42,21 +51,21 @@ def generate_launch_description():
         output="both",
     )
 
-    cam_params = {
-        "pixel_format": "mjpeg2rgb",
-        "image_width": 800,
-        "image_height": 600,
-        "framerate": 60.0,
-        "autoexposure": False,
-        "exposure": 500,
-    }
+    # cam_params = {
+    #     "pixel_format": "mjpeg2rgb",
+    #     "image_width": 800,
+    #     "image_height": 600,
+    #     "framerate": 60.0,
+    #     "autoexposure": False,
+    #     "exposure": 500,
+    # }
 
     cam_0 = Node(
         package="usb_cam",
         executable="usb_cam_node_exe",
         name="cam_0",
         namespace="wheelcam/cam_0",
-        parameters=[{**cam_params, "video_device": "/dev/video0"}],
+        parameters=[{camera_params, "video_device": "/dev/video0"}],
         output="both",
     )
 
@@ -65,7 +74,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_1",
         namespace="wheelcam/cam_1",
-        parameters=[{**cam_params, "video_device": "/dev/video2"}],
+        parameters=[{camera_params, "video_device": "/dev/video2"}],
         output="both",
     )
 
@@ -74,7 +83,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
-        parameters=[{**cam_params, "video_device": "/dev/video4"}],
+        parameters=[{camera_params, "video_device": "/dev/video4"}],
         output="both",
     )
 
@@ -83,7 +92,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_3",
         namespace="wheelcam/cam_3",
-        parameters=[{**cam_params, "video_device": "/dev/video6"}],
+        parameters=[{camera_params, "video_device": "/dev/video6"}],
         output="both",
     )
 

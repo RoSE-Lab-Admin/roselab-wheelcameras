@@ -1,0 +1,25 @@
+usb_cam: # The name of your usb_cam node
+  ros__parameters:
+    # Standard usb_cam settings
+    image_width: 1280
+    image_height: 720
+    framerate: 60.0
+    pixel_format: mjpeg2rgb
+    
+    # FFmpeg image_transport configuration
+    image_raw:                # Matches the base topic name of the camera
+      ffmpeg:
+        # Encoder to use (e.g., libx264 for CPU, h264_nvenc for Nvidia GPU)
+        encoder: "libx264" 
+        
+        # Target bitrate in bits/s (Default is usually ~8.2 Mbps)
+        bit_rate: 2000000 
+        
+        # Group of Pictures size (Frames between keyframes)
+        gop_size: 10
+        
+        # Max quantization rate (higher = better compression, worse image quality)
+        qmax: 20
+        
+        # Direct FFmpeg libav options (Comma-separated key:value pairs)
+        encoder_av_options: "preset:superfast,tune:zerolatency,crf:23"
