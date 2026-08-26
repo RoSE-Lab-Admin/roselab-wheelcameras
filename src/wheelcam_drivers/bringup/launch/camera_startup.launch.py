@@ -106,8 +106,8 @@ def generate_launch_description():
                     shutter,
                     cam_0,
                     cam_1,
-                    cam_2,
-                    cam_3,
+                    # cam_2,
+                    # cam_3,
                     set_trigger_mode,
                 ],
             )
