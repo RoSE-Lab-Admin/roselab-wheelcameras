@@ -6,8 +6,10 @@
     framerate: 60.0
     pixel_format: raw_mjpeg
 
-    white_balance_temperature_auto: false
-    exposure_auto: 0
+    #v4l2 exposed commands
+    auto_exposure: 1
+    exposure_time_absolute: 500
+    exposure_dynamic_framerate: 1
     focus_auto: false
     
     image_raw:

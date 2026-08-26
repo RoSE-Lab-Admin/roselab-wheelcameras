@@ -113,15 +113,15 @@ def generate_launch_description():
         output="both",
     )
 
-    set_trigger_mode = TimerAction(
-        period=2.0,
-        actions=[
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-        ]
-    )
+    # set_trigger_mode = TimerAction(
+    #     period=2.0,
+    #     actions=[
+    #         ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+    #         ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+    #         ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+    #         ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+    #     ]
+    # )
 
     return LaunchDescription([
         camera_startup,
@@ -134,7 +134,7 @@ def generate_launch_description():
                     cam_1,
                     cam_2,
                     cam_3,
-                    set_trigger_mode,
+                    # set_trigger_mode,
                 ],
             )
         ),
