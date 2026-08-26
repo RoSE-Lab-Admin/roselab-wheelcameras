@@ -8,6 +8,12 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
 
+    # get camera port paths based on usb indexes
+    cam_0_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:1:1.0-video-index0")
+    cam_1_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:1:1.0-video-index0")
+    cam_2_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:2:1.0-video-index0")
+    cam_3_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0")
+
     # get camera hardware parameters
     hardware_params = PathJoinSubstitution(
         [
@@ -65,7 +71,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_0",
         namespace="wheelcam/cam_0",
-        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:1:1.0-video-index0"}],
+        parameters=[camera_params, {"video_device": cam_0_dev}],
         output="both",
     )
 
@@ -74,7 +80,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_1",
         namespace="wheelcam/cam_1",
-        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:1:1.0-video-index0"}],
+        parameters=[camera_params, {"video_device": cam_1_dev}],
         output="both",
     )
 
@@ -83,7 +89,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
-        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:2:1.0-video-index0"}],
+        parameters=[camera_params, {"video_device": cam_2_dev}],
         output="both",
     )
 
@@ -92,17 +98,17 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_3",
         namespace="wheelcam/cam_3",
-        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0"}],
+        parameters=[camera_params, {"video_device": cam_3_dev}],
         output="both",
     )
 
     set_trigger_mode = TimerAction(
         period=2.0,
         actions=[
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video0', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video2', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video4', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video6', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
         ]
     )
 
