@@ -16,6 +16,15 @@ def generate_launch_description():
     cam_2_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:2:1.0-video-index0")
     cam_3_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0")
 
+    best_effort_qos = {
+        "qos_overrides./image_raw.publisher.reliability": "best_effort",
+        "qos_overrides./image_raw.publisher.durability": "volatile",
+        "qos_overrides./image_raw.publisher.depth": 1,
+        "qos_overrides./camera_info.publisher.reliability": "best_effort",
+        "qos_overrides./camera_info.publisher.durability": "volatile",
+        "qos_overrides./camera_info.publisher.depth": 1,
+    }
+
     # get camera hardware parameters
     hardware_params = PathJoinSubstitution(
         [
@@ -73,7 +82,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_0",
         namespace="wheelcam/cam_0",
-        parameters=[camera_params, {"video_device": cam_0_dev}],
+        parameters=[camera_params, {"video_device": cam_0_dev}, best_effort_qos],
         output="both",
     )
 
@@ -82,7 +91,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_1",
         namespace="wheelcam/cam_1",
-        parameters=[camera_params, {"video_device": cam_1_dev}],
+        parameters=[camera_params, {"video_device": cam_1_dev}, best_effort_qos],
         output="both",
     )
 
@@ -91,7 +100,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
-        parameters=[camera_params, {"video_device": cam_2_dev}],
+        parameters=[camera_params, {"video_device": cam_2_dev}, best_effort_qos],
         output="both",
     )
 
@@ -100,7 +109,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_3",
         namespace="wheelcam/cam_3",
-        parameters=[camera_params, {"video_device": cam_3_dev}],
+        parameters=[camera_params, {"video_device": cam_3_dev}, best_effort_qos],
         output="both",
     )
 
