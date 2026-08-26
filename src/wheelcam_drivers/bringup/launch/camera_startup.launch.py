@@ -17,12 +17,12 @@ def generate_launch_description():
     cam_3_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0")
 
     best_effort_qos = {
-        "qos_overrides./image_raw.publisher.reliability": "best_effort",
-        "qos_overrides./image_raw.publisher.durability": "volatile",
-        "qos_overrides./image_raw.publisher.depth": 1,
-        "qos_overrides./camera_info.publisher.reliability": "best_effort",
-        "qos_overrides./camera_info.publisher.durability": "volatile",
-        "qos_overrides./camera_info.publisher.depth": 1,
+    "qos_overrides.image_raw.publisher.reliability": "best_effort",
+    "qos_overrides.image_raw.publisher.durability": "volatile",
+    "qos_overrides.image_raw.publisher.depth": 1,
+    "qos_overrides.camera_info.publisher.reliability": "best_effort",
+    "qos_overrides.camera_info.publisher.durability": "volatile",
+    "qos_overrides.camera_info.publisher.depth": 1,
     }
 
     # get camera hardware parameters
