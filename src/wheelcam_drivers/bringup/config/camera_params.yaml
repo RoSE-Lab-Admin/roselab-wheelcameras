@@ -6,20 +6,7 @@
     framerate: 30.0
     pixel_format: mjpeg2rgb
     
-    # FFmpeg image_transport configuration
-    image_raw:              
-      ffmpeg:
-        # Encoder to use (e.g., libx264 for CPU, h264_nvenc for Nvidia GPU)
-        encoder: "libx264" 
-        
-        # Target bitrate in bits/s
-        bit_rate: 2000000 
-        
-        # Group of Pictures size (Frames between keyframes)
-        gop_size: 10
-        
-        # Max quantization rate (higher = better compression, worse image quality)
-        qmax: 20
-        
-        # Direct FFmpeg libav options (Comma-separated key:value pairs)
-        encoder_av_options: "preset:superfast,tune:zerolatency,crf:23"
+    image_raw:
+      compressed:
+        format: "jpeg"
+        jpeg_quality: 95
