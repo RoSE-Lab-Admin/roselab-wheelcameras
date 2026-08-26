@@ -69,31 +69,31 @@ def generate_launch_description():
         output="both",
     )
 
-    # cam_2 = Node(
-    #     package="usb_cam",
-    #     executable="usb_cam_node_exe",
-    #     name="cam_2",
-    #     namespace="wheelcam/cam_2",
-    #     parameters=[{**cam_params, "video_device": "/dev/video4"}],
-    #     output="both",
-    # )
+    cam_2 = Node(
+        package="usb_cam",
+        executable="usb_cam_node_exe",
+        name="cam_2",
+        namespace="wheelcam/cam_2",
+        parameters=[{**cam_params, "video_device": "/dev/video4"}],
+        output="both",
+    )
 
-    # cam_3 = Node(
-    #     package="usb_cam",
-    #     executable="usb_cam_node_exe",
-    #     name="cam_3",
-    #     namespace="wheelcam/cam_3",
-    #     parameters=[{**cam_params, "video_device": "/dev/video6"}],
-    #     output="both",
-    # )
+    cam_3 = Node(
+        package="usb_cam",
+        executable="usb_cam_node_exe",
+        name="cam_3",
+        namespace="wheelcam/cam_3",
+        parameters=[{**cam_params, "video_device": "/dev/video6"}],
+        output="both",
+    )
 
     set_trigger_mode = TimerAction(
         period=2.0,
         actions=[
             ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video0', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
             ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video2', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            # ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video4', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            # ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video6', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video4', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', '/dev/video6', '-c', 'exposure_dynamic_framerate=1'], output='screen'),
         ]
     )
 
@@ -106,8 +106,8 @@ def generate_launch_description():
                     shutter,
                     cam_0,
                     cam_1,
-                    # cam_2,
-                    # cam_3,
+                    cam_2,
+                    cam_3,
                     set_trigger_mode,
                 ],
             )
