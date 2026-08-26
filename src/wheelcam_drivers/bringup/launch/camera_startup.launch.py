@@ -65,7 +65,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_0",
         namespace="wheelcam/cam_0",
-        parameters=[camera_params, {"video_device": "/dev/video0"}],
+        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:1:1.0-video-index0"}],
         output="both",
     )
 
@@ -74,7 +74,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_1",
         namespace="wheelcam/cam_1",
-        parameters=[camera_params, {"video_device": "/dev/video2"}],
+        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:1:1.0-video-index0"}],
         output="both",
     )
 
@@ -83,7 +83,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
-        parameters=[camera_params, {"video_device": "/dev/video8"}],
+        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:2:1.0-video-index0"}],
         output="both",
     )
 
@@ -92,7 +92,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_3",
         namespace="wheelcam/cam_3",
-        parameters=[camera_params, {"video_device": "/dev/video6"}],
+        parameters=[camera_params, {"video_device": "/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0"}],
         output="both",
     )
 
