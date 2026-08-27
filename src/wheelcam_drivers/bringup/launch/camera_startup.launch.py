@@ -17,13 +17,26 @@ def generate_launch_description():
     cam_3_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0")
 
     best_effort_qos = {
-    "qos_overrides.image_raw.publisher.reliability": "best_effort",
-    "qos_overrides.image_raw.publisher.durability": "volatile",
-    "qos_overrides.image_raw.publisher.depth": 1,
-    "qos_overrides.camera_info.publisher.reliability": "best_effort",
-    "qos_overrides.camera_info.publisher.durability": "volatile",
-    "qos_overrides.camera_info.publisher.depth": 1,
+        "qos_overrides.image_raw.publisher.reliability": "best_effort",
+        "qos_overrides.image_raw.publisher.durability": "volatile",
+        "qos_overrides.image_raw.publisher.depth": 1,
+        "qos_overrides.camera_info.publisher.reliability": "best_effort",
+        "qos_overrides.camera_info.publisher.durability": "volatile",
+        "qos_overrides.camera_info.publisher.depth": 1,
     }
+
+    def make_compressed_republisher(camera_ns: str):
+        return Node(
+            package="image_transport",
+            executable="republish",
+            name=f"{camera_ns}_compressor",
+            arguments=["raw", "compressed"],
+            remappings=[
+                ("in", f"{camera_ns}/image_raw"),
+                ("out", f"{camera_ns}/image_raw/compressed"),
+            ],
+            output="screen",
+        )
 
     # get camera hardware parameters
     hardware_params = PathJoinSubstitution(
@@ -113,6 +126,11 @@ def generate_launch_description():
         output="both",
     )
 
+    cam_0_comp = make_compressed_republisher("/wheelcam/cam_0")
+    cam_1_comp = make_compressed_republisher("/wheelcam/cam_1")
+    cam_2_comp = make_compressed_republisher("/wheelcam/cam_2")
+    cam_3_comp = make_compressed_republisher("/wheelcam/cam_3")
+
     set_trigger_mode = TimerAction(
         period=2.0,
         actions=[
@@ -144,6 +162,10 @@ def generate_launch_description():
                     cam_1,
                     cam_2,
                     cam_3,
+                    cam_0_comp,
+                    cam_1_comp,
+                    cam_2_comp,
+                    cam_3_comp,
                     set_trigger_mode,
                 ],
             )

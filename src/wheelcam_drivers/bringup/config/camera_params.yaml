@@ -1,12 +1,14 @@
 /**:
   ros__parameters:
-    # Standard usb_cam settings
+    # Keep the USB camera in its native V4L2 pixel format; do not force RGB conversion
+    # on the publisher if the goal is to stream over ROS2 at 30 FPS / 720p.
+    # Use "mjpeg" for MJPEG cameras and "yuyv" for YUYV cameras.
     image_width: 1280
     image_height: 720
-    framerate: 60.0
-    pixel_format: mjpeg2rgb
-    
-    image_raw:
-      compressed:
-        format: "jpeg"
-        jpeg_quality: 95
+    framerate: 30.0
+    pixel_format: mjpeg
+
+    # Compressed transport is enabled by image_transport republishers below.
+    # Do not expect usb_cam to automatically create /image_raw/compressed from this file.
+    # The raw image remains available for local processing while the network path uses the
+    # compressed transport to keep bandwidth manageable.
