@@ -3,7 +3,7 @@
     # Standard usb_cam settings
     image_width: 640
     image_height: 480
-    framerate: 60.0
+    framerate: 30.0
     pixel_format: mjpeg2rgb
     
     image_raw:
