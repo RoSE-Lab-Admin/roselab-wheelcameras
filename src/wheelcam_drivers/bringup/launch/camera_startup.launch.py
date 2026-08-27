@@ -116,15 +116,15 @@ def generate_launch_description():
     set_trigger_mode = TimerAction(
         period=2.0,
         actions=[
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'auto_exposure=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'auto_exposure=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'auto_exposure=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'auto_exposure=1'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'auto_exposure=1'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'auto_exposure=1'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'auto_exposure=1'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'auto_exposure=1'], output='screen'),
 
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
+            # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
 
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
