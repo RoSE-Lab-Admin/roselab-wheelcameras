@@ -78,8 +78,8 @@ def generate_launch_description():
     # }
 
     cam_0 = Node(
-        package="v4l2_camera",
-        executable="v4l2_camera_node",
+        package="usb_cam",
+        executable="usb_cam_node_exe",
         name="cam_0",
         namespace="wheelcam/cam_0",
         parameters=[camera_params, {"video_device": cam_0_dev}, best_effort_qos],
@@ -87,8 +87,8 @@ def generate_launch_description():
     )
 
     cam_1 = Node(
-        package="v4l2_camera",
-        executable="v4l2_camera_node",
+        package="usb_cam",
+        executable="usb_cam_node_exe",
         name="cam_1",
         namespace="wheelcam/cam_1",
         parameters=[camera_params, {"video_device": cam_1_dev}, best_effort_qos],
@@ -96,8 +96,8 @@ def generate_launch_description():
     )
 
     cam_2 = Node(
-        package="v4l2_camera",
-        executable="v4l2_camera_node",
+        package="usb_cam",
+        executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
         parameters=[camera_params, {"video_device": cam_2_dev}, best_effort_qos],
@@ -105,8 +105,8 @@ def generate_launch_description():
     )
 
     cam_3 = Node(
-        package="v4l2_camera",
-        executable="v4l2_camera_node",
+        package="usb_cam",
+        executable="usb_cam_node_exe",
         name="cam_3",
         namespace="wheelcam/cam_3",
         parameters=[camera_params, {"video_device": cam_3_dev}, best_effort_qos],
