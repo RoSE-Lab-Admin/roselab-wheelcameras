@@ -1,11 +1,33 @@
 /**:
-  ros__parameters:
-    # Standard usb_cam settings
-    image_width: 640
-    image_height: 480
-    framerate: 30.0
-    pixel_format: raw_mjpeg
+  # ros__parameters:
+  #   # Standard usb_cam settings
+  #   image_width: 640
+  #   image_height: 480
+  #   framerate: 30.0
+  #   pixel_format: raw_mjpeg
     
-    image_raw:
-      compressed:
-        jpeg_quality: 75
+  #   image_raw:
+  #     compressed:
+  #       jpeg_quality: 75
+
+
+    ros__parameters:
+      image_width: 640
+      image_height: 480
+      framerate: 30.0
+      io_method: "mmap"
+      frame_id: "camera"
+      pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
+      av_device_format: "MJPG"
+      camera_name: "camera"
+      camera_info_url: "package://usb_cam/config/camera_info.yaml"
+      brightness: -1
+      contrast: -1
+      saturation: -1
+      sharpness: -1
+      gain: -1
+      auto_white_balance: true
+      white_balance: 4000
+      autoexposure: true
+      exposure: 500
+      autofocus: false
