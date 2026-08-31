@@ -16,7 +16,7 @@
       image_height: 480
       framerate: 100.0
       io_method: "mmap"
-      pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
+      pixel_format: "mjpeg2rgb"  # see usb_cam/supported_formats for list of supported formats
       # av_device_format: "MJPG"
       # brightness: -1
       # contrast: -1
