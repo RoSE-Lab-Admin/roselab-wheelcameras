@@ -4,5 +4,5 @@
 	branch = main
 [submodule "src/usb_cam"]
 	path = src/usb_cam
-	url = https://github.com/RoSE-Lab-Admin/usb_cam.git
+	url = git@github.com:RoSE-Lab-Admin/usb_cam.git
 	branch = main
