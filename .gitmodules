@@ -2,3 +2,7 @@
 	path = src/src/usb_cam
 	url = git@github.com:RoSE-Lab-Admin/usb_cam.git
 	branch = main
+[submodule "src/usb_cam"]
+	path = src/usb_cam
+	url = git@github.com:RoSE-Lab-Admin/usb_cam.git
+	branch = main
