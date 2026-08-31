@@ -14,7 +14,7 @@
     ros__parameters:
       image_width: 640
       image_height: 480
-      framerate: 30.0
+      framerate: 100.0
       io_method: "mmap"
       pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
       av_device_format: "MJPG"
