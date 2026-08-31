@@ -17,7 +17,7 @@
       framerate: 30.0
       io_method: "mmap"
       pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
-      av_device_format: "Motion-JPEG"
+      # av_device_format: "Motion-JPEG"
       # brightness: -1
       # contrast: -1
       # saturation: -1
