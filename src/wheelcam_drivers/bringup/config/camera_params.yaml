@@ -16,11 +16,8 @@
       image_height: 480
       framerate: 30.0
       io_method: "mmap"
-      frame_id: "camera"
       pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
       av_device_format: "MJPG"
-      camera_name: "camera"
-      camera_info_url: "package://usb_cam/config/camera_info.yaml"
       brightness: -1
       contrast: -1
       saturation: -1
