@@ -1,32 +1,18 @@
 /**:
-  # ros__parameters:
-  #   # Standard usb_cam settings
-  #   image_width: 640
-  #   image_height: 480
-  #   framerate: 30.0
-  #   pixel_format: raw_mjpeg
-    
-  #   image_raw:
-  #     compressed:
-  #       jpeg_quality: 75
-
-
-    ros__parameters:
-      image_width: 640
-      image_height: 480
-      framerate: 100.0
-      io_method: "mmap"
-      pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
-      # av_device_format is only used by the mjpeg2rgb decode path (not raw_mjpeg passthrough).
-      # It must be a valid FFmpeg pixel format name, not a V4L2 FourCC like "MJPG".
-      av_device_format: "YUV422P"
-      # brightness: -1
-      # contrast: -1
-      # saturation: -1
-      # sharpness: -1
-      # gain: -1
-      # auto_white_balance: true
-      # white_balance: 4000
-      # autoexposure: true
-      # exposure: 500
-      # autofocus: false
+  ros__parameters:
+    image_width: 640
+    image_height: 480
+    framerate: 100.0
+    io_method: "mmap"
+    pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
+    av_device_format: "YUV422P" # this should not matter if using the raw_mjpeg option
+    brightness: -1
+    contrast: -1
+    saturation: -1
+    sharpness: -1
+    gain: -1
+    auto_white_balance: true
+    white_balance: 4000
+    autoexposure: true
+    exposure: 500
+    autofocus: false
