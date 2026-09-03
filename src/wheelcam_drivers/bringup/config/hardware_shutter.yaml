@@ -4,4 +4,4 @@ hardware_shutter:
     output_topic: "/wheelcam/imageheader"
     gpio_chip: /dev/gpiochip4
     gpio_pin: 3
-    pulse_duration_us: 333
+    pulse_duration_us: 500
