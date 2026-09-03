@@ -12,7 +12,7 @@
     sharpness: -1
     gain: -1
     auto_white_balance: false
-    white_balance: 4500
+    white_balance: 3000
     autoexposure: false
     exposure: 500
     autofocus: false
