@@ -126,6 +126,11 @@ def generate_launch_description():
             # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
             # ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_time_absolute=500'], output='screen'),
 
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'brightness=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'brightness=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'brightness=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'brightness=0'], output='screen'),
+
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'white_balance_automatic=0'], output='screen'),
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'white_balance_automatic=0'], output='screen'),
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'white_balance_automatic=0'], output='screen'),
