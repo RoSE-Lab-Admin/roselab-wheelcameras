@@ -6,13 +6,13 @@
     io_method: "mmap"
     pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
     av_device_format: "yuv422p" # this should not matter if using the raw_mjpeg option
-    brightness: -1
-    contrast: -1
-    saturation: -1
-    sharpness: -1
-    gain: -1
-    auto_white_balance: false
-    white_balance: 3000
+    # brightness: -1
+    # contrast: -1
+    # saturation: -1
+    # sharpness: -1
+    # gain: -1
+    # auto_white_balance: false
+    # white_balance: 3000
     autoexposure: false
     exposure: 500
     autofocus: false
