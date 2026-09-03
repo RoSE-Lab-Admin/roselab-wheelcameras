@@ -11,8 +11,8 @@
     saturation: -1
     sharpness: -1
     gain: -1
-    auto_white_balance: true
-    white_balance: 6000
+    auto_white_balance: false
+    white_balance: 4500
     autoexposure: false
     exposure: 500
     autofocus: false
