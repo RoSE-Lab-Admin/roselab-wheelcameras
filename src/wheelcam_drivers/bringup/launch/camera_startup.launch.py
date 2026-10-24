@@ -7,6 +7,7 @@ from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, 
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
@@ -16,14 +17,14 @@ def generate_launch_description():
     cam_2_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.1-usb-0:2:1.0-video-index0")
     cam_3_dev = os.path.realpath("/dev/v4l/by-path/platform-xhci-hcd.0-usb-0:2:1.0-video-index0")
 
-    best_effort_qos = {
-    "qos_overrides.image_raw.publisher.reliability": "best_effort",
-    "qos_overrides.image_raw.publisher.durability": "volatile",
-    "qos_overrides.image_raw.publisher.depth": 1,
-    "qos_overrides.camera_info.publisher.reliability": "best_effort",
-    "qos_overrides.camera_info.publisher.durability": "volatile",
-    "qos_overrides.camera_info.publisher.depth": 1,
-    }
+    # best_effort_qos = {
+    # "qos_overrides.image_raw.publisher.reliability": "best_effort",
+    # "qos_overrides.image_raw.publisher.durability": "volatile",
+    # "qos_overrides.image_raw.publisher.depth": 1,
+    # "qos_overrides.camera_info.publisher.reliability": "best_effort",
+    # "qos_overrides.camera_info.publisher.durability": "volatile",
+    # "qos_overrides.camera_info.publisher.depth": 1,
+    # }
 
     # get camera hardware parameters
     hardware_params = PathJoinSubstitution(
@@ -43,6 +44,16 @@ def generate_launch_description():
             "camera_params.yaml",
         ]
     )
+
+    # calibration files, one per camera
+    calib_dir = os.path.join(
+        get_package_share_directory("wheelcam_drivers"), "bringup", "config", "camera_config")
+
+    def calib_params(i):
+        return {
+            "camera_name": f"cam_{i}",
+            "camera_info_url": "file://" + os.path.join(calib_dir, f"cam_{i}_calib.yaml"),
+        }
 
     #get path to camera setup script
     camera_script = PathJoinSubstitution(
@@ -82,7 +93,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_0",
         namespace="wheelcam/cam_0",
-        parameters=[camera_params, {"video_device": cam_0_dev}, best_effort_qos],
+        parameters=[camera_params, {"video_device": cam_0_dev}, calib_params(0)],
         output="both",
     )
 
@@ -91,7 +102,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_1",
         namespace="wheelcam/cam_1",
-        parameters=[camera_params, {"video_device": cam_1_dev}, best_effort_qos],
+        parameters=[camera_params, {"video_device": cam_1_dev}, calib_params(1)],
         output="both",
     )
 
@@ -100,7 +111,7 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_2",
         namespace="wheelcam/cam_2",
-        parameters=[camera_params, {"video_device": cam_2_dev}, best_effort_qos],
+        parameters=[camera_params, {"video_device": cam_2_dev}, calib_params(2)],
         output="both",
     )
 
@@ -109,13 +120,70 @@ def generate_launch_description():
         executable="usb_cam_node_exe",
         name="cam_3",
         namespace="wheelcam/cam_3",
-        parameters=[camera_params, {"video_device": cam_3_dev}, best_effort_qos],
+        parameters=[camera_params, {"video_device": cam_3_dev}, calib_params(3)],
         output="both",
     )
+
+    # restamp each camera's compressed images and camera_info with the hardware trigger stamp
+    restampers = [
+        Node(
+            package="wheelcam_drivers",
+            executable="image_restamper",
+            name=f"cam_{i}_restamper",
+            namespace=f"wheelcam/cam_{i}",
+            parameters=[{
+                "input_image_topic": f"/wheelcam/cam_{i}/image_raw/compressed",
+                "input_info_topic": f"/wheelcam/cam_{i}/camera_info",
+                "output_image_topic": f"/wheelcam/cam_{i}/synced/image_raw/compressed",
+                "output_info_topic": f"/wheelcam/cam_{i}/synced/camera_info",
+                "trigger_topic": "/wheelcam/imageheader",
+                "min_latency": 0.0,
+                "max_latency": 0.1,
+            }],
+            output="both",
+        )
+        for i in range(4)
+    ]
 
     set_trigger_mode = TimerAction(
         period=2.0,
         actions=[
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'brightness=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'brightness=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'brightness=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'brightness=0'], output='screen'),
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'contrast=32'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'contrast=32'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'contrast=32'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'contrast=32'], output='screen'),
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'saturation=64'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'saturation=64'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'saturation=64'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'saturation=64'], output='screen'),
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'white_balance_automatic=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'white_balance_automatic=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'white_balance_automatic=0'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'white_balance_automatic=0'], output='screen'),
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'auto_exposure=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'auto_exposure=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'auto_exposure=1'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'auto_exposure=1'], output='screen'),
+
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
+            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
+
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
             ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
@@ -134,6 +202,7 @@ def generate_launch_description():
                     cam_1,
                     cam_2,
                     cam_3,
+                    *restampers,
                     set_trigger_mode,
                 ],
             )

@@ -1,16 +1,18 @@
-/**: # The name of your usb_cam node
+/**:
   ros__parameters:
-    # Standard usb_cam settings
     image_width: 1280
-    image_height: 720
-    framerate: 60.0
-    pixel_format: raw_mjpeg
-
-    white_balance_temperature_auto: false
-    exposure_auto: 0
-    focus_auto: false
-    
-    image_raw:
-      compressed:
-        format: "jpeg"
-        jpeg_quality: 95
+    image_height: 800
+    framerate: 100.0
+    io_method: "mmap"
+    pixel_format: "raw_mjpeg"  # see usb_cam/supported_formats for list of supported formats
+    av_device_format: "yuv422p" # this should not matter if using the raw_mjpeg option
+    # brightness: -1
+    # contrast: -1
+    # saturation: -1
+    # sharpness: -1
+    # gain: -1
+    # auto_white_balance: false
+    # white_balance: 3000
+    autoexposure: false
+    exposure: 500
+    autofocus: false
