@@ -11,10 +11,12 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>libgpiod-dev</depend>
   <depend>v4l-util</depend>
   <!-- <exec_depend>usb_cam</exec_depend> -->
   <exec_depend>v4l2_camera</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

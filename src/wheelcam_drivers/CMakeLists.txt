@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GPIODCXX REQUIRED libgpiod)
@@ -25,8 +26,13 @@ target_link_libraries(hardware_shutter ${GPIODCXX_LIBRARIES})
 
 ament_target_dependencies(hardware_shutter rclcpp std_msgs)
 
+add_executable(image_restamper src/image_restamper.cpp)
+
+ament_target_dependencies(image_restamper rclcpp std_msgs sensor_msgs)
+
 install(TARGETS 
   hardware_shutter
+  image_restamper
   DESTINATION lib/${PROJECT_NAME}
 )
 
