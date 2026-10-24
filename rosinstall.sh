@@ -9,5 +9,4 @@ sudo dpkg -i /tmp/ros2-apt-source.deb
 sudo apt update
 sudo apt upgrade
 
-sudo apt install ros-jazzy-ros-base
-
+sudo apt install ros-jazzy-desktop
