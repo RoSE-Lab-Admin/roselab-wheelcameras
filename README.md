@@ -126,9 +126,9 @@ ros2 launch wheelcam_drivers camera_startup.launch.py
 
 ### 🚦 Launch Sequence
 `camera_startup.launch.py` runs the following steps in order:
-1. `camera_setup.sh` puts `/dev/video0` into manual-exposure, external-trigger mode.
+1. `camera_setup.sh` applies the image settings to all four cameras: brightness, contrast, saturation, fixed white balance (6000 K), manual exposure and external-trigger mode.
 2. After that script exits, it starts `hardware_shutter`, the four `usb_cam` nodes and the four restampers.
-3. After 2 seconds, it applies `v4l2-ctl` image settings to every camera: brightness, contrast, saturation, fixed white balance (6000 K), manual exposure and trigger mode.
+3. After 2 seconds, it runs `camera_setup.sh` again, because `usb_cam` resets the camera controls when it opens each device.
 
 
 ## 🔌 Hardware Setup
@@ -181,7 +181,7 @@ Restamper parameters are set inline in the launch file:
 | `drop_unmatched` | `true` | Drop frames with no matching trigger instead of publishing them with their original stamp |
 
 > [!NOTE]
-> The image settings applied with `v4l2-ctl` at the end of the launch (white balance, exposure, etc.) are **hard-coded in `camera_startup.launch.py`** and override `camera_params.yaml`. Edit the launch file to change them.
+> The camera image settings (brightness, white balance, exposure, etc.) are set with `v4l2-ctl` in **`bringup/launch/camera_setup.sh`** and override `camera_params.yaml`. Edit that script to change them.
 
 > [!IMPORTANT]
 > The `framerate` in `hardware_shutter.yaml` sets the actual capture rate in trigger mode. The `usb_cam` `framerate` only needs to be high enough not to limit it.
@@ -217,8 +217,8 @@ colcon build --packages-select wheelcam_drivers
 - **Camera fails to open / wrong camera order:** A camera is in the wrong USB port, or the by-path names differ on your hardware. Compare `ls -l /dev/v4l/by-path/` with the paths in `camera_startup.launch.py`.
 - **No images on `synced/` topics but `image_raw` works:** Frames are not matching a trigger. Check that `/wheelcam/imageheader` is publishing, and try a larger `max_latency`.
 - **`No trigger stamp within latency window` warnings:** The camera-to-Pi latency is outside `[min_latency, max_latency]`, or the cameras are free-running instead of waiting for the trigger.
-- **`Trigger stamp matched more than one frame` warnings:** The cameras are capturing faster than the trigger rate, so they are not in external trigger mode. Re-run the launch, or apply the `v4l2-ctl` settings manually.
-- **Washed-out or tinted images:** Adjust `white_balance_temperature`, `exposure_time_absolute`, etc. in the `set_trigger_mode` block of the launch file. To list a camera's available controls:
+- **`Trigger stamp matched more than one frame` warnings:** The cameras are capturing faster than the trigger rate, so they are not in external trigger mode. Re-run the launch, or run `camera_setup.sh` manually on the affected device.
+- **Washed-out or tinted images:** Adjust `white_balance_temperature`, `exposure_time_absolute`, etc. in `camera_setup.sh`. To list a camera's available controls:
     ```bash
     v4l2-ctl -d /dev/video0 --list-ctrls
     ```

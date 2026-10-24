@@ -65,9 +65,9 @@ def generate_launch_description():
         ]
     )
 
-    #camera setup shell script
+    #camera setup shell script, run on all four cameras
     camera_startup = ExecuteProcess(
-            cmd=[camera_script],
+            cmd=[camera_script, cam_0_dev, cam_1_dev, cam_2_dev, cam_3_dev],
             shell=True,
             output='screen'
         )
@@ -145,49 +145,15 @@ def generate_launch_description():
         for i in range(4)
     ]
 
+    # usb_cam overwrites the camera controls when it opens each device, so re-run the setup script once the cameras are up
     set_trigger_mode = TimerAction(
         period=2.0,
         actions=[
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'brightness=0'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'brightness=0'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'brightness=0'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'brightness=0'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'contrast=32'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'contrast=32'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'contrast=32'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'contrast=32'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'saturation=64'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'saturation=64'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'saturation=64'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'saturation=64'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'white_balance_automatic=0'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'white_balance_automatic=0'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'white_balance_automatic=0'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'white_balance_automatic=0'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'white_balance_temperature=6000'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'auto_exposure=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'auto_exposure=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'auto_exposure=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'auto_exposure=1'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_time_absolute=1000'], output='screen'),
-
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_0_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_1_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_2_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
-            ExecuteProcess(cmd=['v4l2-ctl', '-d', cam_3_dev, '-c', 'exposure_dynamic_framerate=1'], output='screen'),
+            ExecuteProcess(
+                cmd=[camera_script, cam_0_dev, cam_1_dev, cam_2_dev, cam_3_dev],
+                shell=True,
+                output='screen'
+            ),
         ]
     )
 
